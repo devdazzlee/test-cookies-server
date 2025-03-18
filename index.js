@@ -65,25 +65,29 @@ app.post("/login", (req, res) => {
     // Set Access Token Cookie
     res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: isProduction, // true in production, false in development
-        sameSite: isProduction ? "None" : "Lax",
+        // secure: isProduction, // true in production, false in development
+        // sameSite: isProduction ? "None" : "Lax",
         maxAge: 15 * 60 * 1000, // 15 minutes
         path: '/',
+        domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
+
     });
 
     // Set Refresh Token Cookie
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: isProduction, // true in production, false in development
-        sameSite: isProduction ? "None" : "Lax",
+        // secure: isProduction, // true in production, false in development
+        // sameSite: isProduction ? "None" : "Lax",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         path: '/',
+        domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
+
     });
 
     res.json({ message: "Login successful" });
 });
 
-     
+
 
 // Start Server
 const PORT = process.env.PORT || 5000;
