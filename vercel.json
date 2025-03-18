@@ -9,10 +9,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "/",
-            "headers": {
-                "Set-Cookie": "SameSite=None; Secure"
-            }
+            "dest": "/"
         }
     ]
 }
