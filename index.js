@@ -41,6 +41,10 @@ const generateRefreshToken = (user) => {
     });
 };
 
+
+app.get("/", (req, res) => {
+    res.send("Hello World!");
+});
 // Login Route: Sends Access & Refresh Tokens as HTTP-Only Cookies
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
@@ -70,6 +74,8 @@ app.post("/login", (req, res) => {
 
     res.json({ message: "Login successful" });
 });
+
+
 
 // Start Server
 const PORT = process.env.PORT || 5000;
