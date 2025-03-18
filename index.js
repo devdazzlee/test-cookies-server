@@ -60,20 +60,20 @@ app.post("/login", (req, res) => {
 
     // Set Access Token Cookie
     res.cookie("accessToken", accessToken, {
-        // httpOnly: true,
+        httpOnly: true,
         secure: true,
-        path: '/',
-        // sameSite: "none",
+        sameSite: isProduction ? "none" : "lax", 
         maxAge: 15 * 60 * 1000, // 15 minutes
+        path: '/',
     });
 
     // Set Refresh Token Cookie
     res.cookie("refreshToken", refreshToken, {
-        // httpOnly: true,
+        httpOnly: true,
         secure: true,
-        path: '/',
-        // sameSite: "none",
+        sameSite: isProduction ? "none" : "lax", 
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        path: '/',
     });
 
     res.json({ message: "Login successful" });
