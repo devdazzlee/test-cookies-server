@@ -62,7 +62,7 @@ app.post("/login", (req, res) => {
     res.cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: false,
-        // sameSite: isProduction ? "none" : "lax",
+        sameSite: isProduction ? "none" : "lax",
         maxAge: 15 * 60 * 1000, // 15 minutes
         path: '/',
     });
@@ -71,7 +71,7 @@ app.post("/login", (req, res) => {
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: false,
-        // sameSite: isProduction ? "none" : "lax",
+        sameSite: isProduction ? "none" : "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         path: '/',
     });
