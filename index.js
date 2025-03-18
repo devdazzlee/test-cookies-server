@@ -64,7 +64,7 @@ app.post("/login", (req, res) => {
 
     // Set Access Token Cookie
     res.cookie("accessToken", accessToken, {
-        httpOnly: true,
+        // httpOnly: true,
         // secure: isProduction, // true in production, false in development
         // sameSite: isProduction ? "None" : "Lax",
         maxAge: 15 * 60 * 1000, // 15 minutes
@@ -75,7 +75,7 @@ app.post("/login", (req, res) => {
 
     // Set Refresh Token Cookie
     res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
+        // httpOnly: true,
         // secure: isProduction, // true in production, false in development
         // sameSite: isProduction ? "None" : "Lax",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
