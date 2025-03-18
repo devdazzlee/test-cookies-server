@@ -67,9 +67,18 @@ app.post("/login", (req, res) => {
         sameSite: isProduction ? "None" : "Lax",
         maxAge: 15 * 60 * 1000, // 15 minutes
         path: '/',
+        // here update the domain to your domain
         domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
 
     });
+
+    // "routes": [
+    //     {
+    //         "src": "/(.*)",
+    //         "dest": "/"
+    //     }
+    // ]
+
 
     // Set Refresh Token Cookie
     res.cookie("refreshToken", refreshToken, {
