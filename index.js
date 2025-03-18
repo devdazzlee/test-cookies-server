@@ -68,7 +68,7 @@ app.post("/login", (req, res) => {
         maxAge: 15 * 60 * 1000, // 15 minutes
         path: '/',
         // here update the domain to your domain
-        domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
+        // domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
 
     });
 
