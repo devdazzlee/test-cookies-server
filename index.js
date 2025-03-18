@@ -23,6 +23,8 @@ const users = [
     { id: 1, email: "test@example.com", password: "password123" },
 ];
 
+const isProduction = process.env.NODE_ENV === "production";
+
 // Secrets (Store securely in .env in production)
 const ACCESS_SECRET = process.env.ACCESS_SECRET || "access_secret";
 const REFRESH_SECRET = process.env.REFRESH_SECRET || "refresh_secret";
@@ -59,16 +61,16 @@ app.post("/login", (req, res) => {
     // Set Access Token Cookie
     res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // Set to true in production
-        sameSite: "strict",
+        secure: true, // Always use secure in production
+        sameSite: "none", // Required for cross-origin cookies
         maxAge: 15 * 60 * 1000, // 15 minutes
     });
 
     // Set Refresh Token Cookie
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        secure: true,
+        sameSite: "none",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
