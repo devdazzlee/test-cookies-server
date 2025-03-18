@@ -63,7 +63,7 @@ app.post("/login", (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: isProduction ? "none" : "lax",
-        maxAge: 15 * 60 * 1000, // 15 minutes
+        // maxAge: 15 * 60 * 1000, // 15 minutes
         expires: new Date(Date.now() + 3600000 * 48),
         path: '/',
     });
@@ -74,7 +74,7 @@ app.post("/login", (req, res) => {
         secure: true,
         sameSite: isProduction ? "none" : "lax",
         expires: new Date(Date.now() + 3600000 * 48),
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        // maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         path: '/',
     });
 
