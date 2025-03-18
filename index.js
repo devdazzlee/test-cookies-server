@@ -60,7 +60,7 @@ app.post("/login", (req, res) => {
 
     // Set Access Token Cookie
     res.cookie("accessToken", accessToken, {
-        httpOnly: true,
+        // httpOnly: true,
         secure: true,
         path: '/',
         // sameSite: "none",
@@ -69,7 +69,7 @@ app.post("/login", (req, res) => {
 
     // Set Refresh Token Cookie
     res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
+        // httpOnly: true,
         secure: true,
         path: '/',
         // sameSite: "none",
