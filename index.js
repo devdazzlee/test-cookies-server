@@ -64,6 +64,7 @@ app.post("/login", (req, res) => {
     sameSite: isProduction ? "None" : "Lax",
     maxAge: 15 * 60 * 1000, // 15 minutes
     path: "/",
+    partitioned: true, // Add this attribute
     // here update the domain to your domain
     // domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
   });
@@ -82,6 +83,7 @@ app.post("/login", (req, res) => {
     sameSite: isProduction ? "None" : "Lax",
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     path: "/",
+    partitioned: true, // Add this attribute
     // domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
   });
 
