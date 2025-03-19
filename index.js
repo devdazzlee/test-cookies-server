@@ -7,7 +7,7 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-app.set("trust proxy", true);
+app.enable("trust proxy"); // OR app.set("trust proxy", true);
 
 // Middlewares
 app.use(cookieParser());
@@ -59,18 +59,29 @@ app.post("/login", (req, res) => {
 
   // Set Access Token Cookie
   res.cookie("accessToken", accessToken, {
-    maxAge: 86_400_000,
     httpOnly: true,
+    secure: true, // true in production, false in development
     sameSite: "none",
-    secure: true,
+    // sameSite: isProduction ? "None" : "Lax",
+    maxAge: 15 * 60 * 1000, // 15 minutes
+    // expires: new Date(Date.now() + 15 * 60 * 1000), // 15 minutes from now
+    path: "/",
+    // partitioned: true, // Add this attribute
+    // domain: ".test-cookies-server-production.up.railway.app", // Ensure it matches backend domain
+    // domain: isProduction ? ".test-backend-1.vercel.app" : undefined, // Set backend domain
   });
 
   // Set Refresh Token Cookie
   res.cookie("refreshToken", refreshToken, {
-    maxAge: 604_800_000, // 7 days in milliseconds
     httpOnly: true,
+    secure: true, // true in production, false in development
     sameSite: "none",
-    secure: true,
+    // sameSite: isProduction ? "None" : "Lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    // expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+    path: "/",
+    // partitioned: true, // Add this attribute
+    // domain: ".test-cookies-server-production.up.railway.app", // Ensure it matches backend domain
   });
 
   res.json({ message: "Login successful" });
