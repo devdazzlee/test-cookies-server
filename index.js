@@ -66,7 +66,8 @@ app.post("/login", (req, res) => {
     maxAge: 15 * 60 * 1000, // 15 minutes
     expires: new Date(Date.now() + 15 * 60 * 1000), // 15 minutes from now
     path: "/",
-    partitioned: true, // Add this attribute
+    // partitioned: true, // Add this attribute
+    domain: ".test-cookies-server-production.up.railway.app", // Ensure it matches backend domain
     // domain: isProduction ? ".test-backend-1.vercel.app" : undefined, // Set backend domain
   });
 
@@ -79,8 +80,8 @@ app.post("/login", (req, res) => {
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
     path: "/",
-    partitioned: true, // Add this attribute
-    // domain: isProduction ? ".test-backend-1.vercel.app" : undefined, // Set backend domain
+    // partitioned: true, // Add this attribute
+    domain: ".test-cookies-server-production.up.railway.app", // Ensure it matches backend domain
   });
 
   res.json({ message: "Login successful" });
