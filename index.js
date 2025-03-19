@@ -7,23 +7,21 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-app.set('trust proxy', 1);
-
+app.set("trust proxy", true);
 
 // Middlewares
 app.use(cookieParser());
 app.use(express.json());
 app.use(
-    cors({
-        origin: "http://localhost:3000", // Adjust for frontend
-        credentials: true, // Allow sending cookies
-    })
+  cors({
+    origin: "http://localhost:3000", // Adjust for frontend
+    credentials: true, // Allow sending cookies
+    exposedHeaders: ["set-cookie"],
+  })
 );
 
 // Dummy user data (Replace with DB in production)
-const users = [
-    { id: 1, email: "test@example.com", password: "password123" },
-];
+const users = [{ id: 1, email: "test@example.com", password: "password123" }];
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -33,68 +31,62 @@ const REFRESH_SECRET = process.env.REFRESH_SECRET || "refresh_secret";
 
 // Function to generate Access Token
 const generateAccessToken = (user) => {
-    return jwt.sign({ id: user.id, email: user.email }, ACCESS_SECRET, {
-        expiresIn: "15m",
-    });
+  return jwt.sign({ id: user.id, email: user.email }, ACCESS_SECRET, {
+    expiresIn: "15m",
+  });
 };
 
 // Function to generate Refresh Token
 const generateRefreshToken = (user) => {
-    return jwt.sign({ id: user.id, email: user.email }, REFRESH_SECRET, {
-        expiresIn: "7d",
-    });
+  return jwt.sign({ id: user.id, email: user.email }, REFRESH_SECRET, {
+    expiresIn: "7d",
+  });
 };
 
-
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+  res.send("Hello World!");
 });
 // Login Route: Sends Access & Refresh Tokens as HTTP-Only Cookies
 app.post("/login", (req, res) => {
-    const { email, password } = req.body;
-    const user = users.find((u) => u.email === email && u.password === password);
-    if (!user) {
-        return res.status(401).json({ message: "Invalid credentials" });
-    }
+  const { email, password } = req.body;
+  const user = users.find((u) => u.email === email && u.password === password);
+  if (!user) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
 
-    const accessToken = generateAccessToken(user);
-    const refreshToken = generateRefreshToken(user);
+  const accessToken = generateAccessToken(user);
+  const refreshToken = generateRefreshToken(user);
 
-    // Set Access Token Cookie
-    res.cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: false, // true in production, false in development
-        sameSite: isProduction ? "None" : "Lax",
-        maxAge: 15 * 60 * 1000, // 15 minutes
-        path: '/',
-        // here update the domain to your domain
-        // domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
+  // Set Access Token Cookie
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: false, // true in production, false in development
+    sameSite: isProduction ? "None" : "Lax",
+    maxAge: 15 * 60 * 1000, // 15 minutes
+    path: "/",
+    // here update the domain to your domain
+    // domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
+  });
 
-    });
+  // "routes": [
+  //     {
+  //         "src": "/(.*)",
+  //         "dest": "/"
+  //     }
+  // ]
 
-    // "routes": [
-    //     {
-    //         "src": "/(.*)",
-    //         "dest": "/"
-    //     }
-    // ]
+  // Set Refresh Token Cookie
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: false, // true in production, false in development
+    sameSite: isProduction ? "None" : "Lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    path: "/",
+    // domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
+  });
 
-
-    // Set Refresh Token Cookie
-    res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: false, // true in production, false in development
-        sameSite: isProduction ? "None" : "Lax",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        path: '/',
-        // domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
-
-    });
-
-    res.json({ message: "Login successful" });
+  res.json({ message: "Login successful" });
 });
-
-
 
 // Start Server
 const PORT = process.env.PORT || 5000;
