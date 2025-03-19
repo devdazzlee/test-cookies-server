@@ -62,13 +62,8 @@ app.post("/login", (req, res) => {
     httpOnly: true,
     secure: true, // true in production, false in development
     sameSite: "None",
-    // sameSite: isProduction ? "None" : "Lax",
     maxAge: 15 * 60 * 1000, // 15 minutes
-    // expires: new Date(Date.now() + 15 * 60 * 1000), // 15 minutes from now
     path: "/",
-    // partitioned: true, // Add this attribute
-    // domain: ".test-cookies-server-production.up.railway.app", // Ensure it matches backend domain
-    // domain: isProduction ? ".test-backend-1.vercel.app" : undefined, // Set backend domain
   });
 
   // Set Refresh Token Cookie
@@ -76,12 +71,8 @@ app.post("/login", (req, res) => {
     httpOnly: true,
     secure: true, // true in production, false in development
     sameSite: "None",
-    // sameSite: isProduction ? "None" : "Lax",
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    // expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
     path: "/",
-    // partitioned: true, // Add this attribute
-    // domain: ".test-cookies-server-production.up.railway.app", // Ensure it matches backend domain
   });
 
   res.json({ message: "Login successful" });
