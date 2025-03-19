@@ -14,9 +14,9 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000", // Adjust for frontend
-    credentials: true, // Allow sending cookies
-    exposedHeaders: ["set-cookie"],
+    origin: ["http://localhost:3000", "https://test-frontend-1-one.vercel.app"],
+    credentials: true, // Allow sending cookies with cross-origin requests
+    exposedHeaders: ["set-cookie"], // Expose set-cookie header to the client
   })
 );
 
