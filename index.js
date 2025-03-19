@@ -63,18 +63,11 @@ app.post("/login", (req, res) => {
     secure: true, // true in production, false in development
     sameSite: isProduction ? "None" : "Lax",
     maxAge: 15 * 60 * 1000, // 15 minutes
+    expires: new Date(Date.now() + 15 * 60 * 1000), // 15 minutes from now
     path: "/",
     partitioned: true, // Add this attribute
-    // here update the domain to your domain
-    // domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
+    domain: isProduction ? ".test-backend-1.vercel.app" : undefined, // Set backend domain
   });
-
-  // "routes": [
-  //     {
-  //         "src": "/(.*)",
-  //         "dest": "/"
-  //     }
-  // ]
 
   // Set Refresh Token Cookie
   res.cookie("refreshToken", refreshToken, {
@@ -82,9 +75,10 @@ app.post("/login", (req, res) => {
     secure: true, // true in production, false in development
     sameSite: isProduction ? "None" : "Lax",
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
     path: "/",
     partitioned: true, // Add this attribute
-    // domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
+    domain: isProduction ? ".test-backend-1.vercel.app" : undefined, // Set backend domain
   });
 
   res.json({ message: "Login successful" });
