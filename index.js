@@ -7,8 +7,6 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-app.set('trust proxy', 1);
-
 
 // Middlewares
 app.use(cookieParser());
@@ -58,6 +56,8 @@ app.post("/login", (req, res) => {
     }
 
     const refreshToken = generateRefreshToken(user);
+    const accessToken = generateAccessToken(user);
+
     // Set Refresh Token Cookie
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
@@ -65,8 +65,15 @@ app.post("/login", (req, res) => {
         sameSite: "None",
         maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+    // Set the access token as an HTTP-only cookie (15 minutes)
+    res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+        maxAge: 15 * 60 * 1000, // 15 minutes in milliseconds
+    });
 
-    res.json({ refreshToken });
+    res.json({ refreshToken, accessToken });
 });
 
 
