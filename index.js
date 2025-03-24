@@ -63,12 +63,15 @@ app.post("/login", (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "None",
+        domain: "localhost",
         maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     // Set the access token as an HTTP-only cookie (15 minutes)
     res.cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: true,
+        domain: "localhost",
+        // domain : isProduction ? ".vercel.app" : "localhost",
         sameSite: "None",
         maxAge: 15 * 60 * 1000, // 15 minutes
     });
