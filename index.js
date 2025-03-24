@@ -57,41 +57,16 @@ app.post("/login", (req, res) => {
         return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
-
-    // Set Access Token Cookie
-    res.cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: false, // true in production, false in development
-        sameSite: isProduction ? "None" : "Lax",
-        maxAge: 15 * 60 * 1000, // 15 minutes
-        path: '/',
-        // here update the domain to your domain
-        // domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
-
-    });
-
-    // "routes": [
-    //     {
-    //         "src": "/(.*)",
-    //         "dest": "/"
-    //     }
-    // ]
-
-
     // Set Refresh Token Cookie
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: false, // true in production, false in development
-        sameSite: isProduction ? "None" : "Lax",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        path: '/',
-        // domain: isProduction ? '.test-cookies-server.vercel.app' : undefined, // Add this
-
+        secure: true,
+        sameSite: "None",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.json({ message: "Login successful" });
+    res.json({ refreshToken });
 });
 
 
