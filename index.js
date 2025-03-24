@@ -13,7 +13,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(
     cors({
-        origin: "https://frontenf-deployment.vercel.app", // Adjust for frontend
+        origin: ["https://frontenf-deployment.vercel.app", "http://localhost:3000"], // Adjust for frontend
         credentials: true, // Allow sending cookies
     })
 );
@@ -46,13 +46,13 @@ const generateRefreshToken = (user) => {
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
-});
+});/*  */
 // Login Route: Sends Access & Refresh Tokens as HTTP-Only Cookies
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
     const user = users.find((u) => u.email === email && u.password === password);
     if (!user) {
-        return res.status(401).json({ message: "Invalid credentials" });
+        return res.status(401).json({ message: "Invalid credentials boy 🤬" });
     }
 
     const refreshToken = generateRefreshToken(user);
@@ -70,8 +70,9 @@ app.post("/login", (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "None",
-        maxAge: 15 * 60 * 1000, // 15 minutes in milliseconds
+        maxAge: 15 * 60 * 1000, // 15 minutes
     });
+
 
     res.json({ refreshToken, accessToken });
 });
